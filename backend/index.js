@@ -11,7 +11,7 @@ global.appRoot = path.resolve(__dirname)
 
 // const mongoose = require('mongoose') // mongodb
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3000
 const ADDRESS = process.env.ADDRESS || '127.0.0.1'
 const ENTRY = path.join(__dirname, '../frontend/dist') // if path change, only edit this
 const Pack = require('./package')

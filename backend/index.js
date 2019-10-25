@@ -1,11 +1,12 @@
 'use strict'
 
-// require('dotenv').config({ path: process.env.DOTENV || '.env' })
+require('dotenv').config({ path: process.env.DOTENV || '.env' })
+
 
 const Hapi = require('hapi')
 const path = require('path') // resolving path module
 const Boom = require('boom')
-
+const dialogFlowHelper = require('./helpers/dialogflow')
 // Paths
 global.appRoot = path.resolve(__dirname)
 
@@ -88,11 +89,15 @@ const init = async () => {
 
   await server.register([
     // ROUTING PLUGIN
+    require('./routes/dialogFlow'),
     require('./routes/front')
   ])
 
   await server.start()
   console.info(`Server running at: ${server.info.uri}, ENTRY: ${ENTRY}, __dirname ${__dirname}`)
+  // uncomment to test
+  const test = await dialogFlowHelper.sendTextToDiagFlow('Bonjour')
+  console.log(test)
 }
 
 process.on('unHandledRejection', err => {

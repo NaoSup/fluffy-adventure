@@ -9,7 +9,6 @@ const Boom = require('boom')
 const dialogFlowHelper = require('./helpers/dialogflow')
 // Paths
 global.appRoot = path.resolve(__dirname)
-
 // const mongoose = require('mongoose') // mongodb
 
 const PORT = process.env.PORT || 3000

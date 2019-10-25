@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-
+import Layout from '@/views/layout/index'
 Vue.use(Router)
 
+/* eslint-disable id-length */
 export default new Router({
   mode: 'history',
   // avoid page jumping during vue router transitions
@@ -24,8 +24,20 @@ export default new Router({
     },
     {
       path: '/intents',
-      name: 'Intents',
-      component: () => import('@/views/intents/index')
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'Intents',
+          component: () => import('@/views/intents/index')
+        },
+        {
+          path: 'settings',
+          name: 'IntentsSettings',
+          component: () => import('@/views/intents/components/intentSettings')
+        }
+      ]
     }
-  ],
+  ]
 })
+/* eslint-enable id-length */

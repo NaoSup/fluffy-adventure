@@ -15,18 +15,26 @@ const DialogFlow = {
                 }
             },
             {
-                method: 'POST',
+                method: 'GET',
                 path: '/dialogflow/intents',
                 handler: async (req, h) => {
                     return IntentControlleur.getAllIntents()
                 }
             },
             {
+
                 method: 'POST',
                 path: '/dialogflow/intent',
                 handler: async (req, h) => {
-                    return result = await IntentControlleur.createIntent(req.payload)
+                    return await IntentControlleur.createIntent(req.payload)
 
+                }
+            },
+            {
+                method: 'GET',
+                path: '/dialogflow/intent/{intentId}',
+                handler: async (req, h) => {
+                    return await IntentControlleur.getIntent(req.params.intentId)
                 }
             }
 

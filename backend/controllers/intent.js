@@ -5,6 +5,7 @@ const client = new dialogflow.v2.IntentsClient({
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
   }
 })
+const locale = "fr"
 const formattedParent = client.projectAgentPath(process.env.DIALOGFLOW_PROJECT_ID);
 class Intent {
 
@@ -13,8 +14,11 @@ class Intent {
     const options = { autoPaginate: false };
 
     try {
-      const responses = await client.listIntents({ parent: formattedParent, intentView: 1 }, options)
-      console.log("getAllIntents")
+      const responses = await client.listIntents(
+        {
+          parent: formattedParent,
+          intentView: 1
+        }, options)
       return {
         data: responses[0],
         code: 200
@@ -44,6 +48,29 @@ class Intent {
     }
     catch (err) {
       console.error("createIntent", err)
+      return {
+        data: null,
+        code: 500
+      }
+    }
+  }
+  async getIntent(intentId) {
+    console.log(intentId)
+    const formattedName = client.intentPath(process.env.DIALOGFLOW_PROJECT_ID, intentId)
+    try {
+      const responses = await client.getIntent(
+        {
+          name: formattedName,
+          languageCode: locale,
+          intentView: 1
+        })
+      return {
+        data: responses,
+        code: 200
+      }
+    }
+    catch (err) {
+      console.error("getIntent", err)
       return {
         data: null,
         code: 500

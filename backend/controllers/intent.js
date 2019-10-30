@@ -78,6 +78,28 @@ class Intent {
     }
   }
 
+  async deleteIntent(intentId) {
+    console.log(intentId)
+    const formattedName = client.intentPath(process.env.DIALOGFLOW_PROJECT_ID, intentId)
+    try {
+      const responses = await client.deleteIntent(
+        {
+          name: formattedName
+        })
+      return {
+        data: responses,
+        code: 200
+      }
+    }
+    catch (err) {
+      console.error("getIntent", err)
+      return {
+        data: null,
+        code: 500
+      }
+    }
+  }
+
   async updateIntent(reqPayload, intentId) {
 
     let intent = reqPayload.intent

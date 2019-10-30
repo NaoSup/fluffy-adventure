@@ -77,6 +77,32 @@ class Intent {
       }
     }
   }
+
+  async updateIntent(reqPayload, intentId) {
+
+    let intent = reqPayload.intent
+    intent.name = client.intentPath(process.env.DIALOGFLOW_PROJECT_ID, intentId)
+
+    const request = {
+      intent: intent,
+      languageCode: locale,
+      intentView: 1
+    }
+    try {
+      const responses = await client.updateIntent(request)
+      return {
+        data: responses,
+        code: 200
+      }
+    }
+    catch (err) {
+      console.error("updateIntent", err)
+      return {
+        data: null,
+        code: 500
+      }
+    }
+  }
 }
 
 module.exports = new Intent()

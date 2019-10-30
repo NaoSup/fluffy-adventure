@@ -36,6 +36,13 @@ const DialogFlow = {
                 handler: async (req, h) => {
                     return await IntentControlleur.getIntent(req.params.intentId)
                 }
+            },
+            {
+                method: 'PUT',
+                path: '/dialogflow/intent/{intentId}',
+                handler: async (req, h) => {
+                    return await IntentControlleur.updateIntent(req.payload, req.params.intentId)
+                }
             }
 
 

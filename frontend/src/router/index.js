@@ -32,7 +32,7 @@ export default new Router({
           component: () => import('@/views/intents/index')
         },
         {
-          path: 'settings',
+          path: 'settings/:intentId?',
           name: 'IntentsSettings',
           component: () => import('@/views/intents/components/intentSettings')
         }

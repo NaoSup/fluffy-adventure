@@ -82,6 +82,11 @@ export default {
       }
     }
   },
+  created() {
+    if (this.$route.params.intentId) {
+      this.getIntent(this.$route.params.intentId)
+    }
+  },
   methods: {
     addTrainingPhrase() {
       if (this.trainingPhrase.length) {
@@ -99,6 +104,9 @@ export default {
       if (!this.intent.trainingPhrases.length && !this.errors.includes('trainingPhrase')) {
         this.errors.push('trainingPhrase')
       }
+    },
+    getIntent(intentId) {
+      // @TODO get intent from DF
     },
     returnToList() {
       this.$router.push({
@@ -119,7 +127,11 @@ export default {
       if (this.errors.length) {
         return false
       }
-      console.info('save')
+      if (this.$route.params.intentId) {
+        console.info('update intent')
+      } else {
+        console.info('create intent')
+      }
     }
   }
 }

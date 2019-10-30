@@ -95,8 +95,8 @@ const init = async () => {
   await server.start()
   console.info(`Server running at: ${server.info.uri}, ENTRY: ${ENTRY}, __dirname ${__dirname}`)
   // uncomment to test
-  const test = await dialogFlowHelper.sendTextToDiagFlow('Bonjour')
-  console.log(test)
+  // const test = await dialogFlowHelper.sendTextToDiagFlow('Bonjour')
+  // console.log(test)
 }
 
 process.on('unHandledRejection', err => {

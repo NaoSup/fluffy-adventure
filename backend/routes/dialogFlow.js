@@ -43,6 +43,13 @@ const DialogFlow = {
                 handler: async (req, h) => {
                     return await IntentControlleur.updateIntent(req.payload, req.params.intentId)
                 }
+            },
+            {
+                method: 'DELETE',
+                path: '/dialogflow/intent/{intentId}',
+                handler: async (req, h) => {
+                    return await IntentControlleur.deleteIntent(req.params.intentId)
+                }
             }
 
 

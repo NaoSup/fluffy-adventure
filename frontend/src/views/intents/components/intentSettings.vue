@@ -22,6 +22,7 @@
           />
           <div v-if="errors.includes('intentName')" class="error absolute text-danger">Veuillez saisir un nom pour cet intent</div>
         </div>
+        <hr/>
         <div class="form-group">
           <h3>Phrases d'entraînement</h3>
           <p>Les phrases que vous pouvez attendre des utilisateurs et qui déclencheront un intent</p>
@@ -39,6 +40,7 @@
           </div>
         </div>
         <div class="table-responsive">
+        <!-- // @TODO add pagination -->
           <table class="table table-sm table-hover">
             <tbody v-if="intent.trainingPhrases.length">
               <trainingPhrase
@@ -51,13 +53,20 @@
             <div v-else><small class="font-italic pl-2">Aucune phrase d'entraînement n'a été ajoutée...</small></div>
           </table>
         </div>
+        <hr/>
+        <div v-if="intentId">
+          <h3>Zone de danger</h3>
+          <p>Attention, cette action est irreversible.</p>
+          <!-- @TODO add validation pop up -->
+          <button class="btn btn-danger" @click.prevent="deleteIntent">Supprimer</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getIntent, updateIntent } from '@/api/dialogFlow'
+import { createIntent, deleteIntent, getIntent, updateIntent } from '@/api/dialogFlow'
 import TrainingPhrase from './trainingPhrase'
 export default {
   name: 'IntentSettings',
@@ -67,9 +76,10 @@ export default {
       errors: [],
       intent: {
         displayName: '',
-        trainingPhrases: []
+        trainingPhrases: [],
+        webhookState: 'WEBHOOK_STATE_ENABLED'
       },
-      trainingPhrase: ''
+      trainingPhrase: '',
     }
   },
   watch: {
@@ -79,14 +89,19 @@ export default {
         this.errors.splice(index, 1)
       }
 
-      if (!this.intent.name.length && !this.errors.includes('intentName')) {
+      if (!this.intent.displayName.length && !this.errors.includes('intentName')) {
         this.errors.push('intentName')
       }
     }
   },
+  computed: {
+    intentId() {
+      return this.$route.params.intentId
+    }
+  },
   created() {
-    if (this.$route.params.intentId) {
-      this.getIntent(this.$route.params.intentId)
+    if (this.intentId) {
+      this.getIntent(this.intentId)
     }
   },
   methods: {
@@ -102,6 +117,15 @@ export default {
       if (this.intent.trainingPhrases.length && this.errors.includes('trainingPhrase')) {
         const index = this.errors.indexOf('intentName')
         this.errors.splice(index, 1)
+      }
+    },
+    deleteIntent() {
+      if (this.intentId) {
+        deleteIntent(this.intentId).then(response => {
+          if (response && response.data) {
+            this.$router.push('/intents')
+          } 
+        })
       }
     },
     deleteTrainingPhrase(index) {
@@ -127,7 +151,7 @@ export default {
     save() {
       this.errors = []
 
-      if (!this.intent.name.length) {
+      if (!this.intent.displayName.length) {
         this.errors.push('intentName')
       }
 
@@ -138,8 +162,8 @@ export default {
       if (this.errors.length) {
         return false
       }
-      if (this.$route.params.intentId) {
-        updateIntent(this.intent, this.$route.params.intentId).then(response => {
+      if (this.intentId) {
+        updateIntent(this.intent, this.intentId).then(response => {
           if (!response || !response.data || !response.data[0]) {
             return
           }
@@ -147,7 +171,19 @@ export default {
           this.intent = response.data[0]
         })
       } else {
-        console.info('create intent')
+        createIntent(this.intent).then(response => {
+          if (!response || !response.data || !response.data[0]) {
+            return
+          }
+
+          this.intent = response.data[0]
+
+          const splittedIntentName = this.intent.name.split('/')
+          const intentId = splittedIntentName[splittedIntentName.length - 1]
+          this.$router.replace({
+            path: `/intents/settings/${intentId}`
+          })
+        })
       }
     }
   }

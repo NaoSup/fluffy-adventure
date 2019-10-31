@@ -1,6 +1,54 @@
 import request from './request'
 
 /**
+ * Create an intent
+ * @param {Object} intent
+ * @returns {Promise<any>}
+ */
+function createIntent(intent) {
+  return new Promise(resolve => {
+    request({
+      url: '/dialogflow/intent',
+      method: 'post',
+      data: {
+        intent
+      }
+    })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        console.error('error createIntent', err)
+        resolve({
+          code: 50000,
+          data: [],
+          err: err
+        })
+      })
+  })
+}
+
+function deleteIntent(intentId) {
+  return new Promise(resolve => {
+    request({
+      url: `/dialogflow/intent/${intentId}`,
+      method: 'delete'
+    })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        console.error('error deleteIntent', err)
+        resolve({
+          code: 50000,
+          data: [],
+          err: err
+        })
+      })
+  })
+}
+
+/**
  * Get intent
  * @param {String} intentId
  * @returns {Promise<any>}
@@ -77,4 +125,4 @@ function updateIntent(intent, intentId) {
   })
 }
 
-export { getIntent, getIntentsList, updateIntent }
+export { createIntent, deleteIntent, getIntent, getIntentsList, updateIntent }

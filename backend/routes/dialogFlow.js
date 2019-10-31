@@ -1,6 +1,6 @@
 'use strict'
 
-const IntentControlleur = require('../controllers/intent')
+const IntentController = require('../controllers/intent')
 const DialogFlow = {
     name: 'DialogFlow',
     version: '1.0.0',
@@ -18,7 +18,7 @@ const DialogFlow = {
                 method: 'GET',
                 path: '/dialogflow/intents',
                 handler: async (req, h) => {
-                    return IntentControlleur.getAllIntents()
+                    return IntentController.getAllIntents()
                 }
             },
             {
@@ -26,7 +26,7 @@ const DialogFlow = {
                 method: 'POST',
                 path: '/dialogflow/intent',
                 handler: async (req, h) => {
-                    return await IntentControlleur.createIntent(req.payload)
+                    return await IntentController.createIntent(req.payload)
 
                 }
             },
@@ -34,21 +34,21 @@ const DialogFlow = {
                 method: 'GET',
                 path: '/dialogflow/intent/{intentId}',
                 handler: async (req, h) => {
-                    return await IntentControlleur.getIntent(req.params.intentId)
+                    return await IntentController.getIntent(req.params.intentId)
                 }
             },
             {
                 method: 'PUT',
                 path: '/dialogflow/intent/{intentId}',
                 handler: async (req, h) => {
-                    return await IntentControlleur.updateIntent(req.payload, req.params.intentId)
+                    return await IntentController.updateIntent(req.payload, req.params.intentId)
                 }
             },
             {
                 method: 'DELETE',
                 path: '/dialogflow/intent/{intentId}',
                 handler: async (req, h) => {
-                    return await IntentControlleur.deleteIntent(req.params.intentId)
+                    return await IntentController.deleteIntent(req.params.intentId)
                 }
             }
 

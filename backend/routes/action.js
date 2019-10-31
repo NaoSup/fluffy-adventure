@@ -6,40 +6,39 @@ const Action = {
   version: '1.0.0',
 
   register: async (server, options) => {
-    server.route([
-      {
+    server.route([{
         method: 'GET',
         path: '/actions',
         handler: async (req, h) => {
-          console.info('gets')
+          return await ActionController.getAllActions()
         }
       },
       {
         method: 'POST',
         path: '/action',
         handler: async (req, h) => {
-          return await ActionController.createAction(req)
+          return await ActionController.createAction(req.payload)
         }
       },
       {
         method: 'GET',
         path: '/action/{actionId}',
         handler: async (req, h) => {
-          console.info('get')
+          return await ActionController.getAction(req.params.actionId)
         }
       },
       {
         method: 'PUT',
         path: '/action/{actionId}',
         handler: async (req, h) => {
-          console.info('update')
+          return await ActionController.updateAction(req.params.actionId, req.payload)
         }
       },
       {
         method: 'DELETE',
         path: '/action/{actionId}',
         handler: async (req, h) => {
-          console.info('delete')
+          return await ActionController.deleteAction(req.params.actionId)
         }
       }
     ])

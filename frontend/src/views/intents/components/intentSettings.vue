@@ -3,38 +3,39 @@
     <div class="col-10 offset-1">
       <div class="row p-2 pt-3 mb-3 head">
         <div class="col-6 pl-3">
-          <button class="btn btn-secondary" @click.prevent="returnToList">Return</button>
+          <button class="btn btn-secondary" @click.prevent="returnToList">Retour</button>
         </div>
         <div class="col-6 text-right">
-          <button class="btn btn-primary" @click.prevent="save">Save</button>
+          <button class="btn btn-primary" @click.prevent="save">Enregistrer</button>
         </div>
       </div>
       <div class="form p-2 pl-3 pr-3">
         <div class="form-group">
+        <label for="intentName">Nom de l'intent</label>
           <input
             id="intentName"
-            v-model="intent.name"
+            v-model="intent.displayName"
             :class="{ invalid: errors.includes('intentName') }"
             type="text"
             class="form-control"
             placeholder="Intent name"
           />
-          <div v-if="errors.includes('intentName')" class="error absolute text-danger">Please enter an intent name</div>
+          <div v-if="errors.includes('intentName')" class="error absolute text-danger">Veuillez saisir un nom pour cet intent</div>
         </div>
         <div class="form-group">
-          <h3>Training Phrases</h3>
-          <p>Phrases you can expect from the users, that will trigger the intent</p>
+          <h3>Phrases d'entraînement</h3>
+          <p>Les phrases que vous pouvez attendre des utilisateurs et qui déclencheront un intent</p>
           <input
             id="trainingPhrase"
             v-model="trainingPhrase"
             :class="{ invalid: errors.includes('trainingPhrase') }"
             type="text"
             class="form-control"
-            placeholder="Add a phrase"
+            placeholder="Ajouter une phrase"
             @keyup.enter="addTrainingPhrase"
           />
           <div v-if="errors.includes('trainingPhrase')" class="error absolute text-danger">
-            Please add at least one training phrase
+            Veuillez ajouter au moins une réponse
           </div>
         </div>
         <div class="table-responsive">
@@ -47,7 +48,7 @@
                 @delete="deleteTrainingPhrase(index)"
               />
             </tbody>
-            <div v-else><small class="font-italic pl-2">No training phrase added yet...</small></div>
+            <div v-else><small class="font-italic pl-2">Aucune phrase d'entraînement n'a été ajoutée...</small></div>
           </table>
         </div>
       </div>
@@ -56,6 +57,7 @@
 </template>
 
 <script>
+import { getIntent, updateIntent } from '@/api/dialogFlow'
 import TrainingPhrase from './trainingPhrase'
 export default {
   name: 'IntentSettings',
@@ -64,15 +66,15 @@ export default {
     return {
       errors: [],
       intent: {
-        name: '',
+        displayName: '',
         trainingPhrases: []
       },
       trainingPhrase: ''
     }
   },
   watch: {
-    'intent.name': function() {
-      if (this.intent.name.length && this.errors.includes('intentName')) {
+    'intent.displayName': function() {
+      if (this.intent.displayName.length && this.errors.includes('intentName')) {
         const index = this.errors.indexOf('intentName')
         this.errors.splice(index, 1)
       }
@@ -90,7 +92,10 @@ export default {
   methods: {
     addTrainingPhrase() {
       if (this.trainingPhrase.length) {
-        this.intent.trainingPhrases.push(this.trainingPhrase)
+        this.intent.trainingPhrases.push({
+          parts: [{ text: this.trainingPhrase }], 
+          type: 'EXAMPLE' 
+        })
         this.trainingPhrase = ''
       }
 
@@ -106,7 +111,13 @@ export default {
       }
     },
     getIntent(intentId) {
-      // @TODO get intent from DF
+      getIntent(intentId).then(response => {
+        if (!response || !response.data || !response.data[0]) {
+          return
+        }
+
+        this.intent = response.data[0]
+      })
     },
     returnToList() {
       this.$router.push({
@@ -128,7 +139,13 @@ export default {
         return false
       }
       if (this.$route.params.intentId) {
-        console.info('update intent')
+        updateIntent(this.intent, this.$route.params.intentId).then(response => {
+          if (!response || !response.data || !response.data[0]) {
+            return
+          }
+
+          this.intent = response.data[0]
+        })
       } else {
         console.info('create intent')
       }

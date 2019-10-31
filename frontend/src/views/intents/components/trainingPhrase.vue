@@ -1,9 +1,9 @@
 <template>
   <tr @mouseover="isHovered = true" @mouseleave="isHovered = false">
-    <td>{{ phrase }}</td>
+    <td>{{ phrase.parts[0].text }}</td>
     <td class="text-right">
       <!-- @TODO put icon instead of "Delete text" -->
-      <button v-show="isHovered" class="btn" @click.prevent="deletePhrase">Delete</button>
+      <button v-show="isHovered" class="btn btn-outline-danger btn-sm" @click.prevent="deletePhrase">Supprimer</button>
     </td>
   </tr>
 </template>
@@ -12,7 +12,7 @@
 export default {
   name: 'TrainingPhrase',
   props: {
-    phrase: { type: String, required: true }
+    phrase: { type: Object, required: true }
   },
   data() {
     return {

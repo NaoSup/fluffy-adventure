@@ -2,14 +2,13 @@
 
 require('dotenv').config({ path: process.env.DOTENV || '.env' })
 
-
 const Hapi = require('hapi')
 const path = require('path') // resolving path module
 const Boom = require('boom')
 const dialogFlowHelper = require('./helpers/dialogflow')
 // Paths
 global.appRoot = path.resolve(__dirname)
-// const mongoose = require('mongoose') // mongodb
+const mongoose = require('mongoose') // mongodb
 
 const PORT = process.env.PORT || 3000
 const ADDRESS = process.env.ADDRESS || '127.0.0.1'
@@ -44,7 +43,7 @@ const server = Hapi.Server({
   }
 })
 
-// require('./lib/dbConnection')(mongoose, server) // Init DB
+require('./lib/dbConnection')(mongoose, server) // Init DB
 
 const init = async () => {
   await server.register([
@@ -88,12 +87,15 @@ const init = async () => {
 
   await server.register([
     // ROUTING PLUGIN
+    require('./routes/action'),
     require('./routes/dialogFlow'),
     require('./routes/front')
   ])
 
   await server.start()
-  console.info(`Server running at: ${server.info.uri}, ENTRY: ${ENTRY}, __dirname ${__dirname}`)
+  console.info(
+    `Server running at: ${server.info.uri}, ENTRY: ${ENTRY}, __dirname ${__dirname}`
+  )
   // uncomment to test
   // const test = await dialogFlowHelper.sendTextToDiagFlow('Bonjour')
   // console.log(test)

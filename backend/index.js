@@ -1,6 +1,6 @@
 'use strict'
 
-require('dotenv').config({ path: process.env.DOTENV || '.env' })
+// require('dotenv').config({ path: __dirname + '/.env' })
 
 const Hapi = require('hapi')
 const path = require('path') // resolving path module
@@ -10,7 +10,7 @@ const dialogFlowHelper = require('./helpers/dialogflow')
 global.appRoot = path.resolve(__dirname)
 const mongoose = require('mongoose') // mongodb
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.DEFAULT_PORT || 3000
 const ADDRESS = process.env.ADDRESS || '127.0.0.1'
 const ENTRY = path.join(__dirname, '../frontend/dist') // if path change, only edit this
 const Pack = require('./package')

@@ -1,0 +1,17 @@
+# Copyright 2018, Naomi Paulmin
+
+runtime: nodejs
+env: flex
+
+env_variables:
+  DEFAULT_PORT: 8080
+  BASE_API_URL: "http://localhost:3000"
+  DIALOGFLOW_PROJECT_ID: "fluffytalk-rapxop"
+  DIALOGFLOW_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3u5YtwdaEK6Uc\nBJmAowHKlrRT69ygRgUdaJQKoJ+3hV3a0B/a2FkKxtXKfrZJtUxbt8wt4FiYP4P1\nNzvPXn5QQahFxmkQ5w0ZPnxUajGO4A+P3oc4C6xbbeaxS+vHTifgrUcKwLKo5QvQ\nOWrl4VSIpMYkWKu/oCUOfPAPYkI+rKS+5VUuyMXZ0moGTQXAAtkX2XiQAl8/K0Fs\neAlhlVKbuE2RPSyorJaq6SyVAs7+mvr+JI7w7vSa8GvyA9PKfVh9zEdaxiZxdqd/\nJqsBEzcu/cs95gFErHbw7e5oMToKQVUEV/WU69Oo7FvYbku1JZM439QUzjMtqeSJ\n7/8glzqlAgMBAAECggEAASXlatTGu92v8uxebyzVkof9iXa0UrYNSyE/p49YYCOv\nsfHR+SKX79bNOC4xgmVlHD+aQYEg3JatAue88m9DN8opPIJgXrAq50j6Kubc92kT\n/9CipKmCArI9mkcAqqak3iUHCByrIR4JRFxPfC87wXzSFiENta1Q/fWu5FG3Wz/j\nL6jVX3vGb1mw8fcqNfuw66SYZGK0N9h1nBkmL3Wi7BHtQ82fbJ53VkExckjh9Cwl\nQUQnwMTAMjWTqjZxdNiQa4St8K6P6gPXI4rujj00TDBJgorOLUqwswajPUHDRoEf\nuO4mnaYKxnv2mj6r7Hxaa8FDCPwHffwDh37L3ol9EwKBgQDx6iZDMmtD7xDuj8K8\nP3JKKVuHcn0McQT79IJQALLUNZezQsZiTcZeX/BuymVnJTOl3KR/pKPzfRMrFh0n\n44kJIrUvlfhlNEGplpDsua+gPc/SD7eq0X9hc5/S2CMCKf5CFuhxNWpLIkVk+pCN\nqsRUSyU0k94zwfz97KVmWRTJ/wKBgQDCbjWEMMkVr+mer6w/aD65O7A+pW5wyBl7\n0iHuwtUgfzpWVWk1GuO/MBI/Nj970db3ucfwtpELJOIFSdxAMfW05D/A9ZBuC6ks\njjTIfK1Vrjw6TY3ZW9DhJ3LTbGuojI3zUsoiqXzkaC7hezu48ONV/d5jVcMAWYrS\nSpFS3cqTWwKBgQCqQn7NenXOKTrEfD+1V/4rPfJiYOyrzfuRDKSOg/9YpaNwEgYn\n988uat2ATEiUELXJ/YF1KL4PR68u+vBoO5cd6+STajyZle7E2eiEA6gc4oQatt8w\nhSPexY7tyRrSkhWWFCNiUhLOcH9gs4z7d/2Xyg+UcqHH0bcqS9yZLQcZpwKBgQC5\nwwBAjzfgD5VedqtUXW3oHj4SbI5rFNM8ORUQgHeON+Bt0ebVxR4pcW1Nla/rxh3j\ny01bD6Leidukf9/+OX1u2dCLtFLMwTleB3QoxO36+aAzeBt5uz6Dj+QmWeU2QSvy\neXwEx/g6Zcu8xLfXx9b8NrR+JddMg0CeEH5uNNeyFwKBgHDqDp3leJBXxRkljpZs\ntrxhrQ1vauhaQ7iRaXOMM5HSLQkEmS1Zs37UaQs6tgRlm1FXOFvr34r72Q7HOBxL\ngRfDn1coPQYgvprevGFlAux2vLbQVn+QsSBpX8do4oKfb5dl9qUspa0KKKhVXSuV\nxMJoyk6kAAiWoYhHtwU2IhFv\n-----END PRIVATE KEY-----\n"
+  DIALOGFLOW_CLIENT_EMAIL: "dialogflow-ueqeej@fluffytalk-rapxop.iam.gserviceaccount.com"
+  MONGO_URI: "mongodb+srv://root:h3ll0W0r1d@cluster0-o9myi.gcp.mongodb.net/test?retryWrites=true&w=majority"
+
+resources:
+  cpu: 1
+  memory_gb: 2
+  disk_size_gb: 10

@@ -1,0 +1,1 @@
+cd frontend && npm i && node build/build.js

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavigationLink from './components/NavigationLink'
+import NavigationLink from './components/navigationLink'
 export default {
   name: 'Layout',
   components: { NavigationLink }

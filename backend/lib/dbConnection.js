@@ -1,4 +1,4 @@
-'use stric'
+'use strict'
 
 module.exports = function(mongoose, server) {
   // Connect to mongodb

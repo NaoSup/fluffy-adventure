@@ -33,8 +33,24 @@ export default new Router({
         },
         {
           path: 'settings/:intentId?',
-          name: 'IntentsSettings',
+          name: 'IntentSettings',
           component: () => import('@/views/intents/components/intentSettings')
+        }
+      ]
+    },
+    {
+      path: '/actions',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'Actions',
+          component: () => import('@/views/actions/index')
+        },
+        {
+          path: 'settings/:actionId?',
+          name: 'ActionSettings',
+          component: () => import('@/views/actions/components/actionSettings')
         }
       ]
     }

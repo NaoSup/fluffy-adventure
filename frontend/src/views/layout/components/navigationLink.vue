@@ -18,16 +18,12 @@ export default {
 </script>
 
 <style lang="css">
-.nav-link,
-.fa-icon {
-  color: #fff;
-}
-.nav-link:hover .fa-icon {
-  color: #bababa;
+.nav-link {
+  color: #8B939C;
 }
 .nav-link:hover,
 a:hover {
   text-decoration: none;
-  color: #fff;
+  color: #aaa;
 }
 </style>

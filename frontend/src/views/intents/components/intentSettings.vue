@@ -11,7 +11,7 @@
       </div>
       <div class="form p-2 pl-3 pr-3">
         <div class="form-group">
-        <label for="intentName">Nom de l'intent</label>
+          <label for="intentName">Nom de l'intent</label>
           <input
             id="intentName"
             v-model="intent.displayName"
@@ -20,9 +20,11 @@
             class="form-control"
             placeholder="Intent name"
           />
-          <div v-if="errors.includes('intentName')" class="error absolute text-danger">Veuillez saisir un nom pour cet intent</div>
+          <div v-if="errors.includes('intentName')" class="error absolute text-danger">
+            Veuillez saisir un nom pour cet intent
+          </div>
         </div>
-        <hr/>
+        <hr />
         <div class="form-group">
           <h3>Phrases d'entraînement</h3>
           <p>Les phrases que vous pouvez attendre des utilisateurs et qui déclencheront un intent</p>
@@ -40,7 +42,7 @@
           </div>
         </div>
         <div class="table-responsive">
-        <!-- // @TODO add pagination -->
+          <!-- // @TODO add pagination -->
           <table class="table table-sm table-hover">
             <tbody v-if="intent.trainingPhrases.length">
               <trainingPhrase
@@ -53,7 +55,7 @@
             <div v-else><small class="font-italic pl-2">Aucune phrase d'entraînement n'a été ajoutée...</small></div>
           </table>
         </div>
-        <hr/>
+        <hr />
         <div v-if="intentId">
           <h3>Zone de danger</h3>
           <p>Attention, cette action est irreversible.</p>
@@ -79,7 +81,12 @@ export default {
         trainingPhrases: [],
         webhookState: 'WEBHOOK_STATE_ENABLED'
       },
-      trainingPhrase: '',
+      trainingPhrase: ''
+    }
+  },
+  computed: {
+    intentId() {
+      return this.$route.params.intentId
     }
   },
   watch: {
@@ -94,11 +101,6 @@ export default {
       }
     }
   },
-  computed: {
-    intentId() {
-      return this.$route.params.intentId
-    }
-  },
   created() {
     if (this.intentId) {
       this.getIntent(this.intentId)
@@ -108,8 +110,8 @@ export default {
     addTrainingPhrase() {
       if (this.trainingPhrase.length) {
         this.intent.trainingPhrases.push({
-          parts: [{ text: this.trainingPhrase }], 
-          type: 'EXAMPLE' 
+          parts: [{ text: this.trainingPhrase }],
+          type: 'EXAMPLE'
         })
         this.trainingPhrase = ''
       }
@@ -124,7 +126,7 @@ export default {
         deleteIntent(this.intentId).then(response => {
           if (response && response.data) {
             this.$router.push('/intents')
-          } 
+          }
         })
       }
     },

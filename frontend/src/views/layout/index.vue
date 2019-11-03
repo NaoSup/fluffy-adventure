@@ -36,7 +36,7 @@ export default {
   padding: 0;
   position: sticky;
 }
-a.router-link-exact-active {
+a.router-link-active {
   background-color: #59546C;
   color: #fff;
 }

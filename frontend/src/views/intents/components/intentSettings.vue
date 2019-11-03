@@ -18,7 +18,6 @@
             :class="{ invalid: errors.includes('intentName') }"
             type="text"
             class="form-control"
-            placeholder="Intent name"
           />
           <div v-if="errors.includes('intentName')" class="error absolute text-danger">
             Veuillez saisir un nom pour cet intent
@@ -38,14 +37,14 @@
             @keyup.enter="addTrainingPhrase"
           />
           <div v-if="errors.includes('trainingPhrase')" class="error absolute text-danger">
-            Veuillez ajouter au moins une réponse
+            Veuillez ajouter au moins une phrase d'entraînement
           </div>
         </div>
         <div class="table-responsive">
           <!-- // @TODO add pagination -->
           <table class="table table-sm table-hover">
             <tbody v-if="intent.trainingPhrases.length">
-              <trainingPhrase
+              <listPhrase
                 v-for="(phrase, index) in intent.trainingPhrases"
                 :key="index"
                 :phrase="phrase"
@@ -69,10 +68,10 @@
 
 <script>
 import { createIntent, deleteIntent, getIntent, updateIntent } from '@/api/dialogFlow'
-import TrainingPhrase from './trainingPhrase'
+import ListPhrase from '@/components/listPhrase'
 export default {
   name: 'IntentSettings',
-  components: { TrainingPhrase },
+  components: { ListPhrase },
   data() {
     return {
       errors: [],
@@ -117,7 +116,7 @@ export default {
       }
 
       if (this.intent.trainingPhrases.length && this.errors.includes('trainingPhrase')) {
-        const index = this.errors.indexOf('intentName')
+        const index = this.errors.indexOf('trainingPhrase')
         this.errors.splice(index, 1)
       }
     },

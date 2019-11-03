@@ -14,8 +14,6 @@ class Action {
         code: 500,
         data: null
       }
-
-
     }
   }
   async deleteAction(actionId) {
@@ -66,9 +64,13 @@ class Action {
 
   async updateAction(actionId, updateAction) {
     try {
-      const action = await ActionModel.findByIdAndUpdate(actionId, updateAction, {
-        new: true
-      })
+      const action = await ActionModel.findByIdAndUpdate(
+        actionId,
+        updateAction,
+        {
+          new: true
+        }
+      )
       return {
         code: 200,
         data: action
@@ -79,14 +81,11 @@ class Action {
         code: 500,
         data: null
       }
-
-
     }
   }
-  async createAction(createAction) {
-
+  async createAction(actionToCreate) {
     try {
-      const action = await ActionModel.create(createAction)
+      const action = await ActionModel.create(actionToCreate)
       return {
         code: 200,
         data: action

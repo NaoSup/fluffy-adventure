@@ -1,48 +1,44 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const ActionSchema = new Schema({
-  slug: {
-    type: String,
-    index: true,
-    required: true
-  },
-  isActivated: {
-    type: Boolean,
-    default: true
-  },
-  triggerIntentIds: {
-    type: [{
-      projectId: {
-        type: String,
-        required: true
-      },
-      intentId: {
-        type: String,
-        required: true
-      }
-    }],
-    default: undefined
-  },
-  labels: {
-    type: [{
-      locale: {
-        type: String,
-        required: true
-      },
-      name: {
+const ActionSchema = new Schema(
+  {
+    isActivated: {
+      type: Boolean,
+      default: true
+    },
+    triggerIntentIds: {
+      type: [
+        {
+          type: String,
+          required: true
+        }
+      ],
+      default: undefined
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    answers: [
+      {
         type: String,
         required: true
       }
-    }]
+    ],
+    usesContext: {
+      type: Boolean,
+      default: false
+    }
+  },
+  {
+    timestamps: true // Use Mongoose createdAt & updatedAt,
   }
-}, {
-  timestamps: true // Use Mongoose createdAt & updatedAt,
-})
+)
 
 ActionSchema.options.toJSON = {
   getters: true,
-  transform: function (doc, ret, options) {
+  transform: function(doc, ret, options) {
     delete ret.updatedAt
     delete ret.createdAt
     delete ret.__v

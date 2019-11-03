@@ -57,19 +57,14 @@
         <hr />
         <h3>Déclenchement de l'action</h3>
         <div class="form-group">
-        <h5>Utilisation du contexte</h5>
+          <h5>Utilisation du contexte</h5>
           <input id="checkbox" v-model="action.usesContext" type="checkbox" />
           <label for="checkbox">Déclenchée par le contexte</label>
         </div>
         <div class="form-group">
-        <h5>Intents déclencheurs</h5>
+          <h5>Intents déclencheurs</h5>
           <div class="dropdown">
-            <button
-              id="dropdownMenuButton"
-              class="btn dropdown-toggle"
-              type="button"
-              data-toggle="dropdown"
-            >
+            <button id="dropdownMenuButton" class="btn dropdown-toggle" type="button" data-toggle="dropdown">
               Ajouter un intent
             </button>
             <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenuButton">
@@ -93,10 +88,10 @@
         <div class="table-responsive">
           <!-- // @TODO add pagination -->
           <table class="table table-sm table-hover">
-          <thead>
-            <th>Nom de l'intent</th>
-            <th></th>
-          </thead>
+            <thead>
+              <th>Nom de l'intent</th>
+              <th></th>
+            </thead>
             <tbody v-if="action.triggerIntentIds.length">
               <listPhrase
                 v-for="(intentId, index) in action.triggerIntentIds"
@@ -145,7 +140,7 @@ export default {
         const isAlreadySelected = this.action.triggerIntentIds.includes(intentId)
         const containsFilter = intent.displayName.toLowerCase().includes(this.triggerIntentName.toLowerCase())
         return containsFilter && !isAlreadySelected
-      }) 
+      })
     }
   },
   watch: {
@@ -204,10 +199,10 @@ export default {
     },
     getIntentName(intentId) {
       const intentFound = this.intents.find(intent => {
-      const splittedIntentName = intent.name.split('/')
-      if (intentId === splittedIntentName[splittedIntentName.length - 1]) {
-        return intent
-      }
+        const splittedIntentName = intent.name.split('/')
+        if (intentId === splittedIntentName[splittedIntentName.length - 1]) {
+          return intent
+        }
       })
       if (intentFound) {
         return intentFound.displayName
@@ -223,7 +218,7 @@ export default {
       })
     },
     removeTriggerIntent(intentIndex) {
-      this.action.triggerIntentIds.splice(index, 1)
+      this.action.triggerIntentIds.splice(intentIndex, 1)
     },
     returnToList() {
       this.$router.push({

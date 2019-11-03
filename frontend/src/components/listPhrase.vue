@@ -1,6 +1,6 @@
 <template>
   <tr @mouseover="isHovered = true" @mouseleave="isHovered = false">
-    <td>{{  phrase.parts ? phrase.parts[0].text : phrase }}</td>
+    <td>{{ phrase.parts ? phrase.parts[0].text : phrase }}</td>
     <td class="text-right">
       <!-- @TODO put icon instead of "Delete text" -->
       <button v-show="isHovered" class="btn btn-outline-danger btn-sm" @click.prevent="deletePhrase">Supprimer</button>

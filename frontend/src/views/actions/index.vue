@@ -27,7 +27,9 @@
                 <!-- @TODO use Check icon -->
                 <td class="text-center">{{ action.usesContext }}</td>
                 <td class="text-center">
-                  <span class="badge badge-info mr-1" v-for="(intent, key) in getActionIntents(action)" :key="key">{{ intent.displayName }}</span>
+                  <span v-for="(intent, key) in getActionIntents(action)" :key="key" class="badge badge-info mr-1">
+                    {{ intent.displayName }}
+                  </span>
                 </td>
               </tr>
             </tbody>

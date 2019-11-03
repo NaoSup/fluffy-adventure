@@ -1,6 +1,7 @@
 'use strict'
 
 const IntentController = require('../controllers/intent')
+const WebhookController = require('../controllers/webhook')
 const DialogFlow = {
     name: 'DialogFlow',
     version: '1.0.0',
@@ -11,7 +12,9 @@ const DialogFlow = {
                 method: 'POST',
                 path: '/dialogflow/webhook',
                 handler: async (req, h) => {
-                    console.log(req.payload)
+                    console.log("test")
+                    return await WebhookController.getProblem(req.payload)
+                    console.log(req.payload.queryResult.queryText)
                 }
             },
             {

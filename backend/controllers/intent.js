@@ -21,6 +21,8 @@ class Intent {
         },
         options
       )
+      console.log("responses")
+      console.log(responses)
       return {
         data: responses[0],
         code: 200

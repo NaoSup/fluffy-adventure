@@ -89,6 +89,7 @@ const init = async () => {
     // ROUTING PLUGIN
     require('./routes/action'),
     require('./routes/dialogFlow'),
+    require('./routes/ticket'),
     require('./routes/front')
   ])
 

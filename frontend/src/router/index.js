@@ -53,6 +53,22 @@ export default new Router({
           component: () => import('@/views/actions/components/actionSettings')
         }
       ]
+    },
+    {
+      path: '/tickets',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'Tickets',
+          component: () => import('@/views/tickets/index')
+        },
+        {
+          path: 'settings/:ticketId',
+          name: 'TicketSettings',
+          component: () => import('@/views/tickets/components/ticketSettings')
+        }
+      ]
     }
   ]
 })

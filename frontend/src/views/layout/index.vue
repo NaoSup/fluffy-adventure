@@ -6,6 +6,7 @@
           <ul class="nav w-100 flex-column list-group sticky-top sticky-offset">
             <navigation-link name="Intents" route="/intents" />
             <navigation-link name="Actions" route="/actions" />
+            <navigation-link name="Tickets" route="/tickets" />
           </ul>
         </nav>
       </div>

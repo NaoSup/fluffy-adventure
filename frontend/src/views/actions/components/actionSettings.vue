@@ -14,7 +14,7 @@
           <label for="actionName">Nom de l'action</label>
           <input
             id="actionName"
-            v-model="action.name"
+            v-model="actionName"
             :class="{ invalid: errors.includes('actionName') }"
             type="text"
             class="form-control"
@@ -118,11 +118,15 @@ export default {
   data() {
     return {
       action: {
-        name: '',
+        labels: [{
+          locale: 'fr',
+          name: ''
+        }],
         usesContext: false,
         answers: [],
         triggerIntentIds: []
       },
+      actionName: '',
       answer: '',
       errors: [],
       intents: [],
@@ -144,13 +148,13 @@ export default {
     }
   },
   watch: {
-    'action.name': function() {
-      if (this.action.name.length && this.errors.includes('actionName')) {
+    actionName: function() {
+      if (this.actionName.length && this.errors.includes('actionName')) {
         const index = this.errors.indexOf('actionName')
         this.errors.splice(index, 1)
       }
 
-      if (!this.action.name.length && !this.errors.includes('actionName')) {
+      if (!this.actionName.length && !this.errors.includes('actionName')) {
         this.errors.push('actionName')
       }
     }
@@ -174,10 +178,13 @@ export default {
       }
     },
     addTriggerIntent(intent) {
-      const splittedIntentName = intent.name.split('/')
-      const intentId = splittedIntentName[splittedIntentName.length - 1]
-      if (!this.action.triggerIntentIds.find(triggerIntentId => triggerIntentId === intentId)) {
-        this.action.triggerIntentIds.push(intentId)
+      if (!this.action.triggerIntentIds.find(triggerIntentId => triggerIntentId.intentId === intent.name)) {
+        const projectId = intent.name.split('/')[1]
+        const intentToAdd = {
+          intentId: intent.name,
+          projectId
+        }
+        this.action.triggerIntentIds.push(intentToAdd)
       }
       this.triggerIntentName = ''
     },
@@ -189,21 +196,20 @@ export default {
     },
     getAction(actionId) {
       getAction(actionId).then(response => {
-        console.info(response)
         if (!response || !response.data) {
           return
         }
 
         this.action = response.data
+        this.actionName = this.getActionName(this.action)
       })
     },
-    getIntentName(intentId) {
-      const intentFound = this.intents.find(intent => {
-        const splittedIntentName = intent.name.split('/')
-        if (intentId === splittedIntentName[splittedIntentName.length - 1]) {
-          return intent
-        }
-      })
+    getActionName(action) {
+      const label = action.labels.find(label => label.locale === 'fr')
+      return label && label.name || action.id
+    },
+    getIntentName(intent) {
+      const intentFound = this.intents.find(item => item.name === intent.intentId)
       if (intentFound) {
         return intentFound.displayName
       }
@@ -227,9 +233,8 @@ export default {
     },
     save() {
       this.errors = []
-
-      if (!this.action.name.length) {
-        this.errors.push('intentName')
+      if (!this.actionName.length) {
+        this.errors.push('actionName')
       }
 
       if (!this.action.answers.length) {
@@ -239,6 +244,10 @@ export default {
       if (this.errors.length) {
         return false
       }
+
+      const localizedLabel = this.action.labels.find(label => label.locale === 'fr')
+      localizedLabel.name = this.actionName
+
       if (this.actionId) {
         updateAction(this.action).then(response => {
           if (!response || !response.data || !response.data[0]) {

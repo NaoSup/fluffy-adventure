@@ -22,7 +22,7 @@
                 class="clickable"
                 @click.prevent="updateAction(action._id)"
               >
-                <td>{{ action.name || action.slug }}</td>
+                <td>{{ getActionName(action) }}</td>
                 <td class="text-center">{{ (action.answers && action.answers.length) || 0 }}</td>
                 <!-- @TODO use Check icon -->
                 <td class="text-center">{{ action.usesContext }}</td>
@@ -62,19 +62,19 @@ export default {
       })
     },
     getActionIntents(action) {
-      this.intents.forEach(intent => {
-        const splittedIntentName = intent.name.split('/')
-        intent.id = splittedIntentName[splittedIntentName.length - 1]
-      })
       const actionsIntents = []
       for (const triggerIntent of action.triggerIntentIds) {
-        const intentFound = this.intents.find(intent => intent.id === triggerIntent)
+        const intentFound = this.intents.find(intent => intent.name === triggerIntent.intentId)
         if (intentFound) {
           actionsIntents.push(intentFound)
         }
       }
 
       return actionsIntents
+    },
+    getActionName(action) {
+      const label = action.labels.find(label => label.locale === 'fr')
+      return label && label.name || action.id
     },
     getActions() {
       getActionsList().then(response => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row pt-4">
     <div class="col-10 offset-1">
       <div class="row">
         <div class="col-12 table-responsive">
@@ -16,7 +16,10 @@
                 class="clickable"
                 @click.prevent="updateTicket(ticket._id)"
               >
-                <td>{{ ticket.orderNumber }}</td>
+                <td>
+                  {{ ticket.orderNumber }}
+                  <span v-if="isTicketNew(ticket)" class="badge badge-primary">Nouveau</span>
+                </td>
                 <td>{{ ticket.description }}</td>
                 <td :class="`text-${getTicketStatusClass(ticket.status)}`">{{ getTicketStatusText(ticket.status) }}</td>
               </tr>
@@ -30,15 +33,17 @@
 
 <script>
 import { getTicketsList } from '@/api/ticket'
+import dayJS from 'dayjs'
+
 export default {
   name: 'Tickets',
   data() {
     return {
       statusList: [
         {
-          text: 'En cours',
+          text: 'Non traité',
           value: 'Pending',
-          class: 'info'
+          class: 'primary'
         },
         {
           text: 'Résolu',
@@ -58,6 +63,12 @@ export default {
     this.getTickets()
   },
   methods: {
+    getLimitDate(ticket) {
+      if (ticket && ticket.createdAt) {
+        return dayJS(ticket.createdAt).add(5, 'day')
+      }
+      return dayJS()
+    },
     getTickets() {
       getTicketsList().then(response => {
         if (!response) {
@@ -73,6 +84,10 @@ export default {
     getTicketStatusText(ticketStatus) {
       const status = this.statusList.find(status => status.value === ticketStatus)
       return (status && status.text) || ticketStatus
+    },
+    isTicketNew(ticket) {
+      const limitDate = this.getLimitDate(ticket)
+      return dayJS().isBefore(limitDate)
     },
     updateTicket(ticketId) {
       this.$router.push({

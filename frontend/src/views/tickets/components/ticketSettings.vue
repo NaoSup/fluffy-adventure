@@ -83,7 +83,7 @@ export default {
     },
     limitDate() {
       if (this.ticket && this.ticket.createdAt) {
-        return dayJS(this.ticket.createdAt).add(3, 'day')
+        return dayJS(this.ticket.createdAt).add(5, 'day')
       }
       return dayJS()
     },

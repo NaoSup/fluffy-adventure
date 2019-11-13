@@ -2,82 +2,45 @@
   <div class="row">
     <div class="col-10 offset-1">
       <div class="row p-2 pt-3 mb-3 head">
-        <div class="col-6 pl-3">
-          <button class="btn btn-secondary" @click.prevent="returnToList">Retour</button>
-        </div>
-        <div class="col-6 text-right">
-          <button class="btn btn-primary" @click.prevent="save">Enregistrer</button>
-        </div>
-      </div>
-      <div class="form p-2 pl-3 pr-3">
-        <div class="table-responsive">
-          <table>
-            <tbody v-if="ticket">
-              <tr>
-                <td>
-                  <b>Numéro de commande</b>
-                </td>
-                <td>
-                  {{ ticket.orderNumber }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Numéro de téléphone</b>
-                </td>
-                <td>
-                  {{ ticket.phoneNumber || 'Non renseigné...' }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Description</b>
-                </td>
-                <td>
+        <div v-if="ticket" class="card w-100">
+          <div class="card-header">
+            Commande
+            <b>#{{ ticket.orderNumber }}</b>
+            <span v-if="isNew" class="badge badge-primary">Nouveau</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4 border-right">
+                <h5 class="card-title">Informations de contact</h5>
+                <p class="card-text">
+                  <b>Téléphone :</b>
+                  <span>{{ ticket.phoneNumber || 'Non renseigné...' }}</span>
+                </p>
+              </div>
+              <div class="col-8">
+                <h5 class="card-title">Description du problème</h5>
+                <p class="card-text">
                   {{ ticket.description }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Informations complémentaires</b>
-                </td>
-                <td>
-                  {{ ticket.additionalDetails || 'Non renseigné...' }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Status</b>
-                </td>
-                <td>
-                  <div class="dropdown">
-                    <button
-                      id="dropdownMenuButton"
-                      :class="`btn-outline-${selectedStatus.class}`"
-                      class="btn dropdown-toggle"
-                      type="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <span>{{ selectedStatus.text }}</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a
-                        v-for="status in statusList"
-                        :class="`text-${status.class}`"
-                        :key="status.value"
-                        class="dropdown-item"
-                        @click.prevent="updateTicketStatus(status.value)"
-                      >
-                        {{ status.text }}
-                      </a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </p>
+                <div v-if="ticket.additionalDetails">
+                  <h6>Informations complémentaires</h6>
+                  <p class="card-text">
+                    {{ ticket.additionalDetails }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <button class="btn" :class="isResolved ? 'btn-danger' : 'btn-primary'" @click.prevent="save">
+              <span v-if="isResolved">
+                Marquer comme non résolu
+              </span>
+              <span v-else>
+                Marquer comme résolu
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -86,6 +49,7 @@
 
 <script>
 import { getTicket, updateTicket } from '@/api/ticket'
+import dayJS from 'dayjs'
 export default {
   name: 'TicketSettings',
   data() {
@@ -111,6 +75,18 @@ export default {
     }
   },
   computed: {
+    isNew() {
+      return dayJS().isBefore(this.limitDate)
+    },
+    isResolved() {
+      return this.ticket && this.ticket.status === 'Resolved'
+    },
+    limitDate() {
+      if (this.ticket && this.ticket.createdAt) {
+        return dayJS(this.ticket.createdAt).add(3, 'day')
+      }
+      return dayJS()
+    },
     selectedStatus() {
       if (this.ticket) {
         return this.statusList.find(status => status.value === this.ticket.status)
@@ -136,6 +112,7 @@ export default {
       })
     },
     save() {
+      this.ticket.status = this.isResolved ? 'Pending' : 'Resolved'
       updateTicket(this.ticket).then(response => {
         if (!response || !response.data) {
           return

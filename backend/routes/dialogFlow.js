@@ -12,9 +12,7 @@ const DialogFlow = {
                 method: 'POST',
                 path: '/dialogflow/webhook',
                 handler: async (req, h) => {
-                    console.log("test")
                     return await WebhookController.getProblem(req.payload)
-                    console.log(req.payload.queryResult.queryText)
                 }
             },
             {

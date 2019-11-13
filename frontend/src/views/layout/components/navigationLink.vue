@@ -19,11 +19,12 @@ export default {
 
 <style lang="css">
 .nav-link {
-  color: #8B939C;
+  color: #cccccc;
 }
 .nav-link:hover,
 a:hover {
   text-decoration: none;
-  color: #aaa;
+  background-color: #0b8079;
+  color: #cccccc;
 }
 </style>

@@ -25,7 +25,7 @@
                 <td>{{ getActionName(action) }}</td>
                 <td class="text-center">{{ (action.answers && action.answers.length) || 0 }}</td>
                 <!-- @TODO use Check icon -->
-                <td class="text-center">{{ action.usesContext }}</td>
+                <td class="text-center">{{ action.usesContext ? 'Oui' : 'Non' }}</td>
                 <td class="text-center">
                   <span v-for="(intent, key) in getActionIntents(action)" :key="key" class="badge badge-info mr-1">
                     {{ intent.displayName }}
@@ -74,7 +74,7 @@ export default {
     },
     getActionName(action) {
       const label = action.labels.find(label => label.locale === 'fr')
-      return label && label.name || action.id
+      return (label && label.name) || action.id
     },
     getActions() {
       getActionsList().then(response => {

@@ -66,8 +66,7 @@ class Action {
     try {
       const action = await ActionModel.findByIdAndUpdate(
         actionId,
-        updateAction,
-        {
+        updateAction, {
           new: true
         }
       )

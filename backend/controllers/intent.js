@@ -11,11 +11,12 @@ const formattedParent = client.projectAgentPath(
 )
 class Intent {
   async getAllIntents() {
-    const options = { autoPaginate: false }
+    const options = {
+      autoPaginate: false
+    }
 
     try {
-      const responses = await client.listIntents(
-        {
+      const responses = await client.listIntents({
           parent: formattedParent,
           intentView: 1
         },

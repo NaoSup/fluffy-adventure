@@ -21,8 +21,6 @@ class Intent {
         },
         options
       )
-      console.log("responses")
-      console.log(responses)
       return {
         data: responses[0],
         code: 200
@@ -58,7 +56,6 @@ class Intent {
     }
   }
   async getIntent(intentId) {
-    console.log(intentId)
     const formattedName = client.intentPath(
       process.env.DIALOGFLOW_PROJECT_ID,
       intentId
@@ -83,7 +80,6 @@ class Intent {
   }
 
   async deleteIntent(intentId) {
-    console.log(intentId)
     const formattedName = client.intentPath(
       process.env.DIALOGFLOW_PROJECT_ID,
       intentId
